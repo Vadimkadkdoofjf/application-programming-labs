@@ -1,47 +1,33 @@
 import argparse
 
 
-def parser_()-> str:
-    """Create parser and return filename"""
+from image import *
+from histogtam import *
+
+
+def create_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument('filename', type=str, help='Path to file')
-    return parser.parse_args().filename
-
-
-def read_file(filename: str)-> list:
-    """Read file and getting data from file
-       param:filename
-       return: list
-     """
-
-    with open(filename, "r", encoding='utf-8') as file:
-        return file.readlines()
-
-
-def count_age(text: list)-> int:
-    """
-    Counting dates
-    param: list
-    return: number(int)
-    """
-
-    counter = 0
-    new_list=[]
-    for i in range(4,len(text),8):
-        new_list.append(text[i])
-    for text in new_list:
-        if int(text[-5:-1])>1999:
-            counter+=1
-    return counter
-
+    parser.add_argument("input_image",type= str,help="path to default image")
+    parser.add_argument("output_image",type=str,help="path to the new image")
+    args =parser.parse_args()
+    return args.input_image,args.output_image
 
 def main():
-    filename=parser_()
-    text = read_file(filename)
-    print(count_age(text))
+    input_image,output_image = create_parser()
+    try:
+        image = input_image
+        img = read_img(image)
+        print_h_w(img)
+        show(img)
 
+        r_hist,g_hist,b_hist = create_hist(img)
+        draw(r_hist,g_hist,b_hist)
 
+        inverted_img = inverted(img)
+        show(inverted_img)
+        save(inverted_img,output_image)
 
-
-if __name__ == "__main__":
-        main()
+    except Exception as e:
+        print(e)
+if __name__ == '__main__':
+    main()
