@@ -1,47 +1,38 @@
 import argparse
+from data import *
 
-
-def parser_()-> str:
-    """Create parser and return filename"""
+def parser_()->str:
+    """
+    Parses the name of annotation
+    """
     parser = argparse.ArgumentParser()
-    parser.add_argument('filename', type=str, help='Path to file')
-    return parser.parse_args().filename
-
-
-def read_file(filename: str)-> list:
-    """Read file and getting data from file
-       param:filename
-       return: list
-     """
-
-    with open(filename, "r", encoding='utf-8') as file:
-        return file.readlines()
-
-
-def count_age(text: list)-> int:
-    """
-    Counting dates
-    param: list
-    return: number(int)
-    """
-
-    counter = 0
-    new_list=[]
-    for i in range(4,len(text),8):
-        new_list.append(text[i])
-    for text in new_list:
-        if int(text[-5:-1])>1999:
-            counter+=1
-    return counter
+    parser.add_argument('filename', type=str, help='name of your file')
+    args = parser.parse_args().filename
+    return args
 
 
 def main():
-    filename=parser_()
-    text = read_file(filename)
-    print(count_age(text))
+    annotation = parser_()
+
+    dataframe = create_dataframe(annotation)
+    add_columns(dataframe)
+    print(dataframe,"\n\n")
+
+    stat(dataframe)
+    print("\n\n")
+
+    new_df = sort(dataframe,1200,1200)
+    print(new_df,"\n\n")
+
+    create_s_column(dataframe)
+    print(dataframe,"\n\n")
+
+    new_df = sort_s(dataframe)
+    print(new_df,"\n\n")
+
+    hist(new_df)
 
 
+if __name__ == '__main__':
+    main()
 
-
-if __name__ == "__main__":
-        main()
