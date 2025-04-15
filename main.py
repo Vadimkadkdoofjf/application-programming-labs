@@ -11,6 +11,13 @@ def parser_()-> str:
 def read_file(filename: str)-> list:
     """Read file and getting data from file
        param:filename
+
+
+
+
+
+
+
        return: list
      """
 
